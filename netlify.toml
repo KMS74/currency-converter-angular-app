@@ -1,5 +1,5 @@
 [build]
-  publish = "dist/"
+  publish = "dist/currency-converter-demo-app"
   command = "ng build"
 [[redirects]]
   from = "/*"
