@@ -17,7 +17,11 @@
     <!-- From Dropdown -->
     <div class="form-group">
       <label for="from">From:</label>
-      <select id="from" [(ngModel)]="baseCurrency" (change)="convert()">
+      <select
+        id="from"
+        [(ngModel)]="baseCurrency"
+        (change)="convert()"
+        [disabled]="isDisabled">
         <option *ngFor="let currency of currencies" [value]="currency">
           {{ currency }}
         </option>
@@ -57,7 +61,7 @@
     </h2>
     <button
       class="cta-details"
-      *ngIf="result > 0"
+      *ngIf="result > 0 && currentRoutePath !== 'details'"
       (click)="navigateToDetailsPage()">
       More detais
     </button>
@@ -67,11 +71,11 @@
   </div>
 </section>
 
-<hr *ngIf="result > 0" />
+<hr *ngIf="currentRoutePath !== 'details' && result > 0" />
 
 <!-- the 9 most popular currencies converted values -->
 <app-currency-converter-grid
-  *ngIf="convertedAmounts && result > 0"
+  *ngIf="currentRoutePath !== 'details' && convertedAmounts && result > 0"
   [popularCurrenciesConvertedAmounts]="convertedAmounts"
   [amount]="amount"
   [baseCurrency]="baseCurrency" />

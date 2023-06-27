@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Rates } from 'src/app/models/rates.model';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { formatDate } from 'src/app/utils/date-utils';
@@ -10,9 +10,11 @@ import { formatDate } from 'src/app/utils/date-utils';
   styleUrls: ['./convertal-panel.component.css'],
 })
 export class ConvertalPanelComponent implements OnInit {
-  baseCurrency = 'EUR';
-  targetCurrency = 'USD';
-  amount = 1;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('base') baseCurrency = 'EUR';
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('target') targetCurrency = 'USD';
+  @Input() amount = 1;
 
   // the 9 most popular currencies
   currencies: string[] = [
@@ -33,12 +35,23 @@ export class ConvertalPanelComponent implements OnInit {
     [key: string]: number;
   } = {};
 
+  isDisabled = false;
+
   exchangeRates!: Rates;
+  currentRoutePath!: string;
+  currentRouteParams!: string[];
 
   constructor(
     private currencyService: CurrencyService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.route.url.subscribe(url => {
+      this.currentRoutePath = url.join('/');
+      this.isDisabled =
+        this.currentRoutePath === 'details' ? true : this.isDisabled;
+    });
+  }
 
   ngOnInit(): void {
     this.currencyService.getRates().subscribe(data => {
@@ -70,6 +83,7 @@ export class ConvertalPanelComponent implements OnInit {
   navigateToDetailsPage() {
     this.router.navigate(['/details'], {
       queryParams: {
+        amount: this.amount,
         baseCurrency: this.baseCurrency,
         targetCurrency: this.targetCurrency,
       },
