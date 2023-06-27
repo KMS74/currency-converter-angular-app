@@ -1,0 +1,11 @@
+<div class="grid grid--3-cols grid--center-v">
+  <p
+    class="heading-tertiary"
+    *ngFor="
+      let convertedCurrency of popularCurrenciesConvertedAmounts | keyvalue
+    ">
+    {{ amount }} {{ baseCurrency }} =
+    {{ convertedCurrency.value | number : '1.2-8' : 'en-US' }}
+    {{ convertedCurrency.key }}
+  </p>
+</div>

@@ -1,0 +1,77 @@
+<!-- Convertal Panel Form -->
+<section>
+  <!-- Amount Input -->
+  <div class="form-group">
+    <label for="amount">Amount</label>
+    <input
+      type="number"
+      id="amount"
+      min="1.0"
+      step="1"
+      [(ngModel)]="amount"
+      (change)="convert()"
+      (input)="convert()" />
+  </div>
+  <div class="grid grid--3-cols grid--center-v">
+    <!-- <div class="grid grid--3-cols grid--center-v"> -->
+    <!-- From Dropdown -->
+    <div class="form-group">
+      <label for="from">From:</label>
+      <select id="from" [(ngModel)]="baseCurrency" (change)="convert()">
+        <option *ngFor="let currency of currencies" [value]="currency">
+          {{ currency }}
+        </option>
+      </select>
+    </div>
+
+    <div class="converter-arrow" (click)="switchCurrencies()">
+      <img
+        src="assets/icons8-sorting-arrows-horizontal-64.png"
+        alt="arrows-horizontal" />
+    </div>
+
+    <!-- To Dropdown -->
+    <div class="form-group">
+      <label for="to">To:</label>
+      <select id="to" [(ngModel)]="targetCurrency" (change)="convert()">
+        <option *ngFor="let currency of currencies" [value]="currency">
+          {{ currency }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="cta-convert">
+    <button (click)="convert()">Convert</button>
+  </div>
+
+  <div class="grid grid--3-cols grid--center-v my-md">
+    <h4 class="subheading" *ngIf="result > 0">
+      1 {{ baseCurrency }} =
+      {{ result / amount | number : '1.2-8' : 'en-US' }}
+      {{ targetCurrency }}
+    </h4>
+
+    <h2 class="heading-secondary" *ngIf="result > 0">
+      {{ result | number : '1.2-8' : 'en-US' }}
+      {{ targetCurrency }}
+    </h2>
+    <button
+      class="cta-details"
+      *ngIf="result > 0"
+      (click)="navigateToDetailsPage()">
+      More detais
+    </button>
+  </div>
+  <div class="grey-text" *ngIf="result > 0">
+    Last update: {{ lastUpdateDate }}
+  </div>
+</section>
+
+<hr *ngIf="result > 0" />
+
+<!-- the 9 most popular currencies converted values -->
+<app-currency-converter-grid
+  *ngIf="convertedAmounts && result > 0"
+  [popularCurrenciesConvertedAmounts]="convertedAmounts"
+  [amount]="amount"
+  [baseCurrency]="baseCurrency" />

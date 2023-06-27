@@ -1,0 +1,21 @@
+<nav class="navbar">
+  <div routerLink="/" class="navbar__logo">
+    <img src="assets/icons-currency-exchange-64.png" alt="logo" />
+  </div>
+  <ul class="navbar__links">
+    <li class="navbar__link">
+      <a
+        routerLink="/details"
+        [queryParams]="{ baseCurrency: 'EUR', targetCurrency: 'USD' }"
+        >EUR-USD Details</a
+      >
+    </li>
+    <li class="navbar__link">
+      <a
+        routerLink="/details"
+        [queryParams]="{ baseCurrency: 'EUR', targetCurrency: 'GBP' }"
+        >EUR-GBP Details</a
+      >
+    </li>
+  </ul>
+</nav>
