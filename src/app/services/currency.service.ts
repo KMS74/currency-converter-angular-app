@@ -10,7 +10,7 @@ import { RatesResponse } from '../models/rates.model';
 })
 export class CurrencyService {
   private API_KEY = '975a0d894752a4b7a2e6c6ea30e2d7c6';
-  private baseURL = 'http://data.fixer.io/api';
+  private baseURL = 'https://data.fixer.io/api';
 
   params = new HttpParams()
     .append('access_key', this.API_KEY)
